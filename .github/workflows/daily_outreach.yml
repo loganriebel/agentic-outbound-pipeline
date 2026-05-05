@@ -1,0 +1,46 @@
+name: Daily Outreach
+
+on:
+  schedule:
+    - cron: '0 13 * * 1-5'  # 8am CT / 1pm UTC, Monday–Friday
+  workflow_dispatch:          # Adds a "Run workflow" button in the Actions tab
+
+jobs:
+  send-emails:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run email sender
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          FROM_NAME: ${{ secrets.FROM_NAME }}
+          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+          EMAIL_SUBJECT: ${{ secrets.EMAIL_SUBJECT }}
+          PROSPECTS_FILE: data/prospects_example.csv
+          EMAIL_TEMPLATE: templates/cold_email.txt
+          LOG_DIR: logs/
+          DRY_RUN: 'false'
+          DAILY_SEND_LIMIT: '20'
+        run: python email_sender.py
+
+      - name: Upload run logs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: outreach-logs-${{ github.run_id }}
+          path: logs/
+          retention-days: 30

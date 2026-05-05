@@ -1,0 +1,15 @@
+Hello {{ name }},
+
+The first company to respond wins the job.
+
+Miss one call, and that customer is already dialing the next HVAC shop.
+
+ConnectFirst auto-texts missed callers from your number in ~30 seconds.
+
+See if it fits your business: https://connectfirst.today/landing?utm_medium=email&utm_source=coldemail&utm_campaign={{ bizname_slug }}
+Or reply "WALKTHROUGH"
+
+Logan
+ConnectFirst
+
+If you'd rather not hear from me again, just reply 'unsubscribe' or visit https://connectfirst.today/unsubscribe
