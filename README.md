@@ -1,5 +1,7 @@
 # Agentic Outbound Pipeline
 
+**Disclaimer: This repo is a nerfed version of what I use to build prospects lists to cold email/call. Think of this repo as a way to understand the basic process and pipeline. This agent becomes significantly more powerful when you add business context and detailed listings of your ICP. **
+
 Every weekday at 8am, this pipeline finds new HVAC prospects in Chicago and sends them a cold email from ConnectFirst. Built for outreach, the agent adds to the prospect list, fills email templates, and schedules the email sends based on historical open and reply rates from previous cold emails.
 
 ```
