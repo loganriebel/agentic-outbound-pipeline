@@ -14,13 +14,13 @@ Claude Agent (Google Maps)  →  prospects.csv  →  email_sender.py  →  inbox
 
 ## How it works
 
-**Stage 1 — Prospecting** ([`.claude/skills/hvac-chicago-prospector.md`](.claude/skills/hvac-chicago-prospector.md))
+**Stage 1: Prospecting** ([`.claude/skills/hvac-chicago-prospector.md`](.claude/skills/hvac-chicago-prospector.md))
 
 A Claude Code skill that searches Google Maps for small HVAC shops in Chicago neighborhoods: Irving Park, Albany Park, Dunning, Belmont Cragin, and others. It targets owner-operated companies with 1-5 trucks and no real web presence just a Google My Business listing.
 
 For each new find, it checks for duplicates, then adds a row to `data/prospects.csv` with the business name, owner name, email, phone, address, and notes. Leaves `Contacted?` blank, which is the trigger for the next stage.
 
-**Stage 2 — Prospect database** ([`data/prospects_example.csv`](data/prospects_example.csv))
+**Stage 2: Prospect database** ([`data/prospects_example.csv`](data/prospects_example.csv))
 
 A CSV with one row per prospect. The `Contacted?` column is the state machine. Blank means the email sender will pick it up, `X` means it's done.
 
@@ -32,9 +32,9 @@ A CSV with one row per prospect. The `Contacted?` column is the state machine. B
 | `Email Address` | Where the email goes |
 | `Phone #`, `Physical Address` | For manual follow-up |
 
-**Stage 3 — Email sender** ([`email_sender.py`](email_sender.py))
+**Stage 3: Email sender** ([`email_sender.py`](email_sender.py))
 
-Reads the CSV, finds every row with a blank `Contacted?` and a valid email address, renders the template with the owner's name and business, sends via SMTP, then marks each row as contacted before moving to the next. If a send fails, it skips that row and logs it. The agent doesn't mark it as contacted.
+Reads the CSV, finds every row with a blank `Contacted?` and a valid email address, renders the template with the owner's name and business, sends via SMTP, then marks each row as contacted before moving to the next. If a send fails, it skips that row and logs it. The agent doesn't mark it as contacted. There is a human-in-the-loop gate so that you don't send crappy emails to your prospects. You can set this up so it asks for approval via slack/discord/email.
 
 The template ([`templates/cold_email.txt`](templates/cold_email.txt)) uses Jinja2 variables so the UTM link is auto-slugified per business.
 
